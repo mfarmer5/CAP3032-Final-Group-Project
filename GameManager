@@ -1,0 +1,46 @@
+class GameManager {
+  //Variables to track if the player has won or lost
+  boolean won = false;
+  boolean lost = false;
+  
+  //Checks whether the mode is normal or endless
+  boolean isEndless = false; 
+
+  //Tracks the user's score and the highscore
+  int score = 0;
+  int highScore = 0; 
+  
+  //Tracks how many times the player has fallen
+  int falls = 0;
+  
+  //Sets the game to Endless
+  void reset(boolean endlessMode) {
+    score = 0;
+    won = false; 
+    lost = false;
+    isEndless = endlessMode;
+  }
+  
+  //Udpates the user's high score
+  void updateScore() {
+    if(score > highScore) {
+      highScore = score;
+    }
+  }
+
+  void playerWin() {
+    if(!isEndless) {
+      won = true; 
+    }
+  }
+  
+  //Player loses if the frog falls below the bottom edge of the
+  //screen twice
+  void playerLose() {
+    falls++;
+    
+    if(falls >= 2) {
+      lost = true;
+    }
+  }
+}
