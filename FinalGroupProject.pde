@@ -3,7 +3,9 @@ Button normal;
 Button endless;
 
 // Platforms (for debugging)
-Platform p1, p2, p3;
+Platform p1;
+BouncyPlatform p2;
+TemporaryPlatform p3;
 
 // Levels
 Level levelNormal, levelEndless;
@@ -31,8 +33,8 @@ void setup() {
 
   // Initialize platforms for debugging
   p1 = new Platform(100, 600, 150, 40, color(#659B5E));
-  p2 = new Platform(350, 450, 150, 40, color(#659B5E));
-  p3 = new Platform(150, 300, 150, 40, color(#659B5E));
+  p2 = new BouncyPlatform(350, 450, 150, 40);
+  p3 = new TemporaryPlatform(150, 300, 150, 40);
 
   gameState = 0;
 }
