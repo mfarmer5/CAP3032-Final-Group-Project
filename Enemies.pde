@@ -1,5 +1,5 @@
 //ENEMY CLASS - Mahak Farmer
-class Enemy {
+class Enemies {
   
   //The enemy's position on the screen.
   float x, y;
@@ -25,7 +25,7 @@ class Enemy {
   boolean horizontal;
 
   //The constructor creates a new enemy and assigns values to all of its variables.
-  Enemy(float x, float y, float w, float h, float speed, float minPosition, float maxPosition, boolean horizontal) {
+  Enemies(float x, float y, float w, float h, float speed, float minPosition, float maxPosition, boolean horizontal) {
     
     //Store the starting position
     this.x = x;
