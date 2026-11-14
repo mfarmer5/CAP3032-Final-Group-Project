@@ -1,4 +1,4 @@
-//ENEMY CLASS - Mahak Farmer
+//ENEMY CLASS
 class Enemies {
   
   //The enemy's position on the screen.
@@ -24,8 +24,11 @@ class Enemies {
   //false = vertical (up and down)
   boolean horizontal;
 
+  //Stores the bird sprite for this enemy
+  PImage img;
+  
   //The constructor creates a new enemy and assigns values to all of its variables.
-  Enemies(float x, float y, float w, float h, float speed, float minPosition, float maxPosition, boolean horizontal) {
+  Enemies(float x, float y, float w, float h, float speed, float minPosition, float maxPosition, boolean horizontal, PImage img) {
     
     //Store the starting position
     this.x = x;
@@ -44,6 +47,9 @@ class Enemies {
     
     //Decide whether  the enemy moves horizontally or vertically
     this.horizontal = horizontal;
+    
+    //Store the bird image
+    this.img = img;
 
     //Make the enemy start by moving forward
     movingForward = true;
@@ -87,10 +93,14 @@ class Enemies {
   //This draws the enemy on the screen. 
   //For now, the enemy is just a red circle but that can be changed once we have an image.
   void display() {
-    fill(255, 70, 70);
-    noStroke();
-    //Draws the enemy using its position and dimensions
-    ellipse(x, y, w, h);
+    if (img != null) {
+      imageMode(CENTER);
+      image(img, x, y, w, h);
+    } else {
+      //Fallback red circle if no image is assigned
+      fill(255, 70, 70);
+      noStroke();
+      ellipse(x, y, w, h);
+    }
   }
-
 }
