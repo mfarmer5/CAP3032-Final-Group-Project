@@ -1,3 +1,8 @@
+import processing.sound.*;
+
+PImage frog1, frog 2, frog3, birds, redBird;
+SoundFile rainSounds, rainForest, natureSounds,chill, flipNote;
+
 // Buttons
 Button normal;
 Button endless;
@@ -37,6 +42,19 @@ void setup() {
   p3 = new TemporaryPlatform(150, 300, 150, 40);
 
   gameState = 0;
+
+  //Loads images and music
+  frog1 = loadImage("frog1.png");
+  frog2 = loadImage("frog2.png");
+  frog3 = loadImage("frog3.png");
+  birds = loadImage("birds.png");
+  redBird = loadImage("redBird.png");
+
+  rainSounds = new SoundFile(this, "rainSoundsEffects.mp3");
+  rainForest = new SoundFile(this, "rainforestSounds.mp3");
+  natureSounds = new SoundFile(this, "NatureSounds.mp3");
+  chill = new SoundFile(this, "chill.mp3");
+  flipNote = new SoundFile(this, "FlipNoteSoundEffects.mp3");
 }
 
 void draw() {
