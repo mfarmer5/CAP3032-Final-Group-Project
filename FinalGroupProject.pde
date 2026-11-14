@@ -1,6 +1,6 @@
 import processing.sound.*;
 
-PImage frog1, frog 2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
+PImage frog1, frog2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
 SoundFile rainSounds, rainForest, natureSounds,chill, flipNote;
 
 // Buttons
