@@ -1,6 +1,6 @@
 import processing.sound.*;
 
-PImage frog1, frog 2, frog3, birds, redBird;
+PImage frog1, frog 2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
 SoundFile rainSounds, rainForest, natureSounds,chill, flipNote;
 
 // Buttons
@@ -47,8 +47,11 @@ void setup() {
   frog1 = loadImage("frog1.png");
   frog2 = loadImage("frog2.png");
   frog3 = loadImage("frog3.png");
-  birds = loadImage("birds.png");
   redBird = loadImage("redBird.png");
+  blueBird = loadImage("bird enemies (blue).png");
+  darkPurpleBird = loadImage("bird enemies (dark purple).png");
+  lightPurpleBird = loadImage("bird enemies (light purple).png");
+  pinkBird = loadImage("bird enemies (pink).png");
 
   rainSounds = new SoundFile(this, "rainSoundsEffects.mp3");
   rainForest = new SoundFile(this, "rainforestSounds.mp3");
