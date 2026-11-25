@@ -36,8 +36,8 @@ void setup() {
   textFont(pixelFont);
   
   //Loads images and music
-  frog1 = loadImage("frog1.png");
-  //frog2 = loadImage("frog2.png");
+  //frog1 = loadImage("frog1.png");
+  frog2 = loadImage("frog2.png");
   //frog3 = loadImage("frog3.png");
   redBird = loadImage("redBird.png");
   blueBird = loadImage("bird enemies (blue).png");
@@ -74,7 +74,7 @@ void draw() {
 
   switch(gameState) {
   case 0:
-    background(#99DDC8);
+    background(#B8DDE5);
 
     // buttons
     normal.update();
@@ -86,11 +86,13 @@ void draw() {
     break;
 
   case 1:
-    background(#283F3B);
+    background(#B8DDE5);
 
-    p1.display(color(#283F3B));
-    p2.display(color(#283F3B));
-    p3.display(color(#283F3B));
+    // Display platforms
+    p1.display(color(#B8DDE5), normalPad);
+    p2.display(color(#B8DDE5), bouncyPad);
+    p3.display(color(#B8DDE5), temporaryPad);
+
     //Update and draw all enemies
     for (Enemies e : enemies) {
       e.update();
