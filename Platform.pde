@@ -1,3 +1,8 @@
+PImage normalPad;
+PImage bouncyPad;
+PImage temporaryPad;
+
+
 class Platform {
   float x, y, w, h;
   color padColor;
@@ -38,51 +43,20 @@ class Platform {
     return crossedTop && overlapsX;
   }
 
-  void display(color bgColor) {
-    if (!active) return;
+  void display(color bgColor, PImage padImage) {
+    if (!active || padImage == null) return;
 
     pushStyle();
-
-    // Shadow
-    noStroke();
-    fill(0, 35 * opacity / 255.0);
-    ellipse(x + 3, y + 4, w, h);
-
-    // Lily pad body
-    fill(padColor, opacity);
-    stroke(red(padColor) * 0.55,
-      green(padColor) * 0.55,
-      blue(padColor) * 0.55, opacity);
-    strokeWeight(2);
-    ellipse(x, y, w, h);
-
-    // Cut out a small wedge to create the lily pad notch
-    noStroke();
-    fill(bgColor, opacity);
-
-    float angle = radians(32);
-
-    float notchX1 = x + cos(-angle) * w;
-    float notchY1 = y + sin(-angle) * h/prescaler;
-
-    float notchX2 = x + cos(angle) * w;
-    float notchY2 = y + sin(angle) * h/prescaler;
-
-    triangle(x, y, notchX1, notchY1, notchX2, notchY2);
-
-    // Lily pad veins
-    stroke(red(padColor) * 0.55,
-      green(padColor) * 0.55,
-      blue(padColor) * 0.55, opacity);
-    strokeWeight(1.5);
-
-    for (float a = 0.8; a < TWO_PI - 0.8; a += 0.55) {
-      float endX = x + cos(a) * w * 0.38;
-      float endY = y + sin(a) * h * 0.38;
-
-      line(x, y, endX, endY);
-    }
-
+  
+    imageMode(CENTER);
+    tint(255, opacity);
+  
+    // Lily pad image sizing
+    float displayW = w * 0.98;
+    float displayH = h * 1.0;
+  
+    image(padImage, x, y, displayW, displayH);
+  
     popStyle();
   }
 
