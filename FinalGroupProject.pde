@@ -44,13 +44,19 @@ void setup() {
   darkPurpleBird = loadImage("bird enemies (dark purple).png");
   //lightPurpleBird = loadImage("bird enemies (light purple).png");
   //pinkBird = loadImage("bird enemies (pink).png");
+  normalPad = loadImage("normalPad.png");
+  bouncyPad = loadImage("bouncyPad.png");
+  temporaryPad = loadImage("temporaryPad.png");
 
   //rainSounds = new SoundFile(this, "rainSoundsEffects.mp3");
   //rainForest = new SoundFile(this, "rainforestSounds.mp3");
   //natureSounds = new SoundFile(this, "NatureSounds.mp3");
   //chill = new SoundFile(this, "chill.mp3");
   //flipNote = new SoundFile(this, "FlipNoteSoundEffects.mp3");
-
+  
+  //Initialize frog
+  frog = new Frog(width/2, height - 150, frog2);
+  
   // Initialize buttons (def. w,h is 200,50. def. textSize is 20)
   normal = new Button(width/2, height/2 + 100, 300, 50, "Normal Mode", 30, color(#659B5E));
   endless = new Button(width/2, height/2 + 170, 280, 50, "Endless Mode", 28, color(#659B5E));
@@ -92,7 +98,37 @@ void draw() {
     p1.display(color(#B8DDE5), normalPad);
     p2.display(color(#B8DDE5), bouncyPad);
     p3.display(color(#B8DDE5), temporaryPad);
-
+    
+    //Update and display frog
+    frog.moveWithMouse();
+    frog.update();
+    
+    // Check normal platform
+    if (frog.velocityY > 0 &&
+        p1.landedOn(frog.x, frog.previousY, frog.y, frog.w, frog.h)) {
+      frog.jump();
+    }
+    
+    // Check bouncy platform
+    else if (frog.velocityY > 0 &&
+        p2.landedOn(frog.x, frog.previousY, frog.y, frog.w, frog.h)) {
+      p2.onLand(frog);
+    }
+    
+    // Check temporary platform
+    else if (frog.velocityY > 0 &&
+        p3.landedOn(frog.x, frog.previousY, frog.y, frog.w, frog.h)) {
+    
+      frog.jump();
+      p3.onLand(frog);
+    }
+    
+    // Check if frog falls below the screen
+    if (frog.y - frog.h/2 > height) {
+      gameState = 3;
+    }
+    
+    frog.display();
     //Update and draw all enemies
     for (Enemies e : enemies) {
       e.update();
