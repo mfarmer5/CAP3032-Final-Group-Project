@@ -2,8 +2,8 @@ class TemporaryPlatform extends Platform {
 
   boolean withering = false;
 
-  int waitFrames = 30;
-  int fadeFrames = 60;
+  int waitFrames = 20;
+  int fadeFrames = 40;
   int elapsedFrames = 0;
 
   TemporaryPlatform(float _x, float _y, float _w, float _h) {
