@@ -1,24 +1,24 @@
 //ENEMY CLASS
 class Enemies {
-  
+
   //The enemy's position on the screen.
   float x, y;
-  
+
   //The enemy's width and height
   float w, h;
-  
+
   //Determines how fast the enemy moves
   float speed;
-  
+
   //The minimum and maximum positioms that the enemy is allowed to travel betwen
   float minPosition;
   float maxPosition;
-  
+
   //Determines which direction the enemy is moving
   //true = moving forward
   //false = moving backward
   boolean movingForward;
-  
+
   //Determines the direction of movement
   //true = horizontal (left and right)
   //false = vertical (up and down)
@@ -26,28 +26,28 @@ class Enemies {
 
   //Stores the bird sprite for this enemy
   PImage img;
-  
+
   //The constructor creates a new enemy and assigns values to all of its variables.
   Enemies(float x, float y, float w, float h, float speed, float minPosition, float maxPosition, boolean horizontal, PImage img) {
-    
+
     //Store the starting position
     this.x = x;
     this.y = y;
-    
+
     //Store the enemy's dimensions
     this.w = w;
     this.h = h;
-    
+
     //Store the enemy's movement speed
     this.speed = speed;
-    
+
     //Store the movement boundaries
     this.minPosition = minPosition;
     this.maxPosition = maxPosition;
-    
+
     //Decide whether  the enemy moves horizontally or vertically
     this.horizontal = horizontal;
-    
+
     //Store the bird image
     this.img = img;
 
@@ -66,21 +66,21 @@ class Enemies {
       } else {
         x -= speed;
       }
-      
+
       //Check if the enemy has reached either boundary
       if (x >= maxPosition || x <= minPosition) {
         //Reverse the movement direction
         movingForward = !movingForward;
       }
     } else {
-      //If the enemy is not horizontal, it moves vertically instead. 
+      //If the enemy is not horizontal, it moves vertically instead.
       //Move down if moving forward. Move up if moving backward.
       if (movingForward == true) {
         y += speed;  // Move down
       } else {
         y -= speed;  // Move up
       }
-      
+
       //Check if the enemy has reached either boundary
       if (y >= maxPosition || y <= minPosition) {
         //Reverse the movement direction
@@ -90,7 +90,7 @@ class Enemies {
   }
 
 
-  //This draws the enemy on the screen. 
+  //This draws the enemy on the screen.
   //For now, the enemy is just a red circle but that can be changed once we have an image.
   void display() {
     if (img != null) {
@@ -101,6 +101,15 @@ class Enemies {
       fill(255, 70, 70);
       noStroke();
       ellipse(x, y, w, h);
+    }
+  }
+
+  // Enemies scroll with the world
+  void scroll(float dy) {
+    y += dy;
+    if (!horizontal) {
+      minPosition += dy;
+      maxPosition += dy;
     }
   }
 }

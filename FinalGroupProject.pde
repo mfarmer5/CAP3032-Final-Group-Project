@@ -1,7 +1,7 @@
 import processing.sound.*;
 
 PImage frog1, frog2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
-SoundFile rainSounds, rainForest, natureSounds,chill, flipNote;
+SoundFile rainSounds, rainForest, natureSounds, chill, flipNote;
 
 // Buttons
 Button normal;
@@ -11,6 +11,9 @@ Button endless;
 Platform p1;
 BouncyPlatform p2;
 TemporaryPlatform p3;
+
+// Platform manager
+PlatformManager platforms;
 
 //Enemies
 ArrayList<Enemies> enemies;
@@ -25,7 +28,7 @@ Frog frog;
 PFont pixelFont;
 
 // Vars
-int gameState; // 0 = menu, 1 = normal, 2 = endless,
+int gameState; // 0 = menu, 1 = normal, 2 = endless, 3 = game over, 4 = win
 
 void setup() {
   size(500, 800);
@@ -34,7 +37,7 @@ void setup() {
   // Load custom font
   pixelFont = createFont("zx_spectrum-7.ttf", 64);
   textFont(pixelFont);
-  
+
   //Loads images and music
   //frog1 = loadImage("frog1.png");
   frog2 = loadImage("frog2.png");
@@ -53,26 +56,23 @@ void setup() {
   //natureSounds = new SoundFile(this, "NatureSounds.mp3");
   //chill = new SoundFile(this, "chill.mp3");
   //flipNote = new SoundFile(this, "FlipNoteSoundEffects.mp3");
-  
-  //Initialize frog
-  frog = new Frog(width/2, height - 150, frog2);
-  
+
+
+
   // Initialize buttons (def. w,h is 200,50. def. textSize is 20)
   normal = new Button(width/2, height/2 + 100, 300, 50, "Normal Mode", 30, color(#659B5E));
   endless = new Button(width/2, height/2 + 170, 280, 50, "Endless Mode", 28, color(#659B5E));
 
-  // Initialize platforms for debugging
-  p1 = new Platform(100, 600, 150, 40, color(#659B5E));
-  p2 = new BouncyPlatform(350, 450, 150, 40);
-  p3 = new TemporaryPlatform(150, 300, 150, 40);
-  
+  // Platform setup
+  platforms = new PlatformManager();
+
   // Initialize enemies list and spawn sample enemies
   enemies = new ArrayList<Enemies>();
   // Horizontal enemy: (x, y, w, h, speed, minPos, maxPos, horizontal)
   enemies.add(new Enemies(250, 520, 350, 350, 3, 50, 450, true, blueBird));
   // Vertical enemy: (x, y, w, h, speed, minPos, maxPos, horizontal)
   enemies.add(new Enemies(100, 380, 350, 350, 2, 200, 550, false, darkPurpleBird));
-  
+
   gameState = 0;
 }
 
@@ -93,47 +93,66 @@ void draw() {
 
   case 1:
     background(#B8DDE5);
-    p3.update;
-    // Display platforms
-    p1.display(color(#B8DDE5), normalPad);
-    p2.display(color(#B8DDE5), bouncyPad);
-    p3.display(color(#B8DDE5), temporaryPad);
-    
-    //Update and display frog
-    frog.moveWithMouse();
+
+    // Update platforms and frog
+    platforms.update();
     frog.update();
-    
-    // Check normal platform
-    if (frog.velocityY > 0 &&
-        p1.landedOn(frog.x, frog.previousY, frog.y, frog.w, frog.h)) {
-      frog.jump();
-    }
-    
-    // Check bouncy platform
-    else if (frog.velocityY > 0 &&
-        p2.landedOn(frog.x, frog.previousY, frog.y, frog.w, frog.h)) {
-      p2.onLand(frog);
-    }
-    
-    // Check temporary platform
-    else if (frog.velocityY > 0 &&
-        p3.landedOn(frog.x, frog.previousY, frog.y, frog.w, frog.h)) {
-    
-      frog.jump();
-      p3.onLand(frog);
-    }
-    
-    // Check if frog falls below the screen
-    if (frog.y - frog.h/2 > height) {
-      gameState = 3;
-    }
-    
+    platforms.checkLanding(frog);
+    platforms.scroll(frog, enemies);
+
+    // Display platforms and frog
+    platforms.display();
+    frog.displayAim();
     frog.display();
+
     //Update and draw all enemies
     for (Enemies e : enemies) {
       e.update();
       e.display();
     }
+
+    // Score
+    fill(0);
+    textAlign(LEFT, TOP);
+    textSize(24);
+    int score = (int)platforms.scrolled / 10;
+    if (score < 1000) text("Until End : " + (1000 - score), 15, 15);
+
+    if (frog.y - frog.h/2 > height) gameState = 3;
+
+    // Final platform countdown
+    if (platforms.finalPlatform != null && platforms.finalPlatform.landed) {
+      fill(0);
+      textAlign(CENTER, TOP);
+      textSize(30);
+      text("Game ends in " + ceil(platforms.finalPlatform.secondsLeft()), width/2, 60);
+    }
+
+    // End the game when the countdown finishes
+    if (platforms.finalPlatform != null && platforms.finalPlatform.timeUp()) {
+      gameState = 4;
+    }
+
+    break;
+  case 3:
+    background(#B8DDE5);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(40);
+    text("Game Over", width/2, height/2 - 40);
+    textSize(24);
+    text("Score: " + int(platforms.scrolled / 10), width/2, height/2 + 10);
+    text("Click to return to menu", width/2, height/2 + 60);
+    break;
+  case 4:
+    background(#B8DDE5);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(40);
+    text("You Win!", width/2, height/2 - 40);
+    textSize(24);
+    text("Score: " + int(platforms.scrolled / 10), width/2, height/2 + 10);
+    text("Click to return to menu", width/2, height/2 + 60);
     break;
   }
 }
@@ -141,8 +160,41 @@ void draw() {
 void mousePressed() {
   switch(gameState) {
   case 0:
-    gameState = 1;
+    if (normal.mouseOver()) {
+      startGame();
+    }
+    break;
+  case 1:
+    frog.startAim();
+    break;
 
+  case 3:
+    gameState = 0;
+    break;
+  case 4:
+    gameState = 0;
     break;
   }
+}
+
+void mouseReleased() {
+  if (gameState == 1) {
+    frog.releaseAim();
+  }
+}
+
+void startGame() {
+  platforms.reset();
+
+  Platform start = platforms.platforms.get(0);
+  frog = new Frog(start.x, 0, frog2);
+  frog.y = start.top() - frog.h/4;
+  frog.onGround = true;
+  frog.standingOn = start;
+
+  enemies = new ArrayList<Enemies>();
+  enemies.add(new Enemies(250, 520, 350, 350, 3, 50, 450, true, blueBird));
+  enemies.add(new Enemies(100, 380, 350, 350, 2, 200, 550, false, darkPurpleBird));
+
+  gameState = 1;
 }

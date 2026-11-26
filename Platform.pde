@@ -35,10 +35,14 @@ class Platform {
     // Check if frog crosses the platform from above
     boolean crossedTop = previousBottom <= top() &&
       currentBottom >= top();
+      
+    // Tweak landing range for accurate collision
+    float frogHitbox = frogW * 0.7;
+    float padHitbox = w * 0.9;
 
     // Check horizontal overlap
-    boolean overlapsX = frogX + frogW/2 > x - w/2 &&
-      frogX - frogW/2 < x + w/2;
+    boolean overlapsX = frogX + frogHitbox/2 > x - padHitbox/2 &&
+      frogX - frogHitbox/2 < x + padHitbox/2;
 
     return crossedTop && overlapsX;
   }
