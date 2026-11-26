@@ -2,7 +2,7 @@ class BouncyPlatform extends Platform {
   float bounceSpeed;
 
   BouncyPlatform(float _x, float _y, float _w, float _h) {
-    this(_x, _y, _w, _h, 14);
+    this(_x, _y, _w, _h, 18);
   }
 
   BouncyPlatform(float _x, float _y, float _w, float _h,
