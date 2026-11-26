@@ -93,7 +93,7 @@ void draw() {
 
   case 1:
     background(#B8DDE5);
-
+    p3.update;
     // Display platforms
     p1.display(color(#B8DDE5), normalPad);
     p2.display(color(#B8DDE5), bouncyPad);
