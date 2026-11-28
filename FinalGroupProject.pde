@@ -1,7 +1,7 @@
 import processing.sound.*;
 
 PImage frog1, frog2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
-SoundFile rainSounds, rainForest, natureSounds, chill, flipNote;
+SoundFile menuMusic, win, lose, jump;
 
 // Buttons
 Button normal;
@@ -51,13 +51,10 @@ void setup() {
   bouncyPad = loadImage("bouncyPad.png");
   temporaryPad = loadImage("temporaryPad.png");
 
-  //rainSounds = new SoundFile(this, "rainSoundsEffects.mp3");
-  //rainForest = new SoundFile(this, "rainforestSounds.mp3");
-  //natureSounds = new SoundFile(this, "NatureSounds.mp3");
-  //chill = new SoundFile(this, "chill.mp3");
-  //flipNote = new SoundFile(this, "FlipNoteSoundEffects.mp3");
-
-
+  menuMusic = new SoundFile(this, "menuMusic.mp3");
+  win = new SoundFile(this, "win.mp3");
+  lose = new SoundFile(this, "lose.mp3");
+  jump = new SoundFile(this, "jump.mp3");
 
   // Initialize buttons (def. w,h is 200,50. def. textSize is 20)
   normal = new Button(width/2, height/2 + 100, 300, 50, "Normal Mode", 30, color(#659B5E));
