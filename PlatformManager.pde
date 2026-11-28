@@ -73,6 +73,7 @@ class PlatformManager {
           jump.play();
         } else if (p instanceof TemporaryPlatform) {
           rumble.play();
+          rumbleStopTime = millis() + 1500;
         } else {
           landing.play();
         }
