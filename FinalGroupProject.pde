@@ -138,7 +138,7 @@ void draw() {
     int score = (int)platforms.scrolled / 10;
     if (score < 1000) text("Until End : " + (1000 - score), 15, 15);
 
-    if (frog.y - frog.h/2 > height) gameState = 3;
+    if (frog.y - frog.h/2 > height) state(3);
 
     // Final platform countdown
     if (platforms.finalPlatform != null && platforms.finalPlatform.landed) {
@@ -150,7 +150,7 @@ void draw() {
 
     // End the game when the countdown finishes
     if (platforms.finalPlatform != null && platforms.finalPlatform.timeUp()) {
-      gameState = 4;
+      state(4);
     }
 
     break;
@@ -216,5 +216,5 @@ void startGame() {
   enemies.add(new Enemies(250, 520, 350, 350, 3, 50, 450, true, blueBird));
   enemies.add(new Enemies(100, 380, 350, 350, 2, 200, 550, false, darkPurpleBird));
 
-  gameState = 1;
+  state(1);
 }
