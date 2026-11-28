@@ -29,6 +29,7 @@ PFont pixelFont;
 
 // Vars
 int gameState; // 0 = menu, 1 = normal, 2 = endless, 3 = game over, 4 = win
+int rumbleStopTime = 0;
 
 void setup() {
   size(500, 800);
@@ -100,6 +101,10 @@ void state(int newState) {
 }
 
 void draw() {
+  if (rumbleStopTime > 0 && millis() > rumbleStopTime() {
+    rumble.stop();
+    rumbleStopTime = 0;  
+  }
 
   switch(gameState) {
   case 0:
