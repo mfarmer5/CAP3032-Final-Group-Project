@@ -30,6 +30,8 @@ PFont pixelFont;
 // Vars
 int gameState; // 0 = menu, 1 = normal, 2 = endless, 3 = game over, 4 = win
 int rumbleStopTime = 0;
+int highScore = 0; // best endless score
+
 
 void setup() {
   size(500, 800);
@@ -120,48 +122,10 @@ void draw() {
     break;
 
   case 1:
-    background(#B8DDE5);
-
-    // Update platforms and frog
-    platforms.update();
-    frog.update();
-    platforms.checkLanding(frog);
-    platforms.scroll(frog, enemies);
-
-    // Display platforms and frog
-    platforms.display();
-    frog.displayAim();
-    frog.display();
-
-    //Update and draw all enemies
-    for (Enemies e : enemies) {
-      e.update();
-      e.display();
-    }
-
-    // Score
-    fill(0);
-    textAlign(LEFT, TOP);
-    textSize(24);
-    int score = (int)platforms.scrolled / 10;
-    if (score < 1000) text("Until End : " + (1000 - score), 15, 15);
-
-    if (frog.y - frog.h/2 > height) state(3);
-
-    // Final platform countdown
-    if (platforms.finalPlatform != null && platforms.finalPlatform.landed) {
-      fill(0);
-      textAlign(CENTER, TOP);
-      textSize(30);
-      text("Game ends in " + ceil(platforms.finalPlatform.secondsLeft()), width/2, 60);
-    }
-
-    // End the game when the countdown finishes
-    if (platforms.finalPlatform != null && platforms.finalPlatform.timeUp()) {
-      state(4);
-    }
-
+  case 2:
+    playGame();
     break;
+    
   case 3:
     background(#B8DDE5);
     fill(0);
@@ -190,20 +154,20 @@ void mousePressed() {
   case 0:
     if (normal.mouseOver()) {
       button.play();
-      startGame();
+      startGame(false);
     }
-    if (endless.mouseOver()) {
+    else if (endless.mouseOver()) {
       button.play();
-      state(2);
+      startGame(true);
     }
     break;
+    
   case 1:
+  case 2:
     frog.startAim();
     break;
 
   case 3:
-    state(0);
-    break;
   case 4:
     state(0);
     break;
@@ -211,12 +175,13 @@ void mousePressed() {
 }
 
 void mouseReleased() {
-  if (gameState == 1) {
+  if (gameState == 1 || gameState == 2) {
     frog.releaseAim();
   }
 }
 
-void startGame() {
+void startGame(boolean endlessMode) {
+  platforms.endless = endlessMode;
   platforms.reset();
 
   Platform start = platforms.platforms.get(0);
@@ -229,5 +194,52 @@ void startGame() {
   enemies.add(new Enemies(250, 520, 350, 350, 3, 50, 450, true, blueBird));
   enemies.add(new Enemies(100, 380, 350, 350, 2, 200, 550, false, darkPurpleBird));
 
-  state(1);
+  gameState = endlessMode ? 2 : 1;
+}
+
+void playGame() {
+  background(#B8DDE5);
+
+  platforms.update();
+  frog.update();
+  platforms.checkLanding(frog);
+  platforms.scroll(frog, enemies);
+
+  platforms.display();
+  frog.displayAim();
+  frog.display();
+
+  for (Enemies e : enemies) {
+    e.update();
+    e.display();
+  }
+
+  // Score
+  int score = int(platforms.scrolled / 10);
+  fill(0);
+  textAlign(LEFT, TOP);
+  textSize(24);
+  text("Score: " + score, 15, 15);
+  if (gameState == 2) {
+    text("Best: " + max(highScore, score), 15, 45);
+  }
+
+  // Final platform countdown (only exists in normal mode)
+  if (platforms.finalPlatform != null && platforms.finalPlatform.landed) {
+    fill(0);
+    textAlign(CENTER, TOP);
+    textSize(30);
+    text("Game ends in " + ceil(platforms.finalPlatform.secondsLeft()), width/2, 60);
+  }
+
+  if (platforms.finalPlatform != null && platforms.finalPlatform.timeUp()) {
+    gameState = 4;
+    return;
+  }
+
+  // Fell off the bottom of the screen
+  if (frog.y - frog.h/2 > height) {
+    if (gameState == 2) highScore = max(highScore, score);
+    gameState = 3;
+  }
 }
