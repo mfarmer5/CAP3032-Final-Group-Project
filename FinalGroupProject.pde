@@ -101,7 +101,7 @@ void state(int newState) {
 }
 
 void draw() {
-  if (rumbleStopTime > 0 && millis() > rumbleStopTime() {
+  if (rumbleStopTime > 0 && millis() > rumbleStopTime) {
     rumble.stop();
     rumbleStopTime = 0;  
   }
