@@ -1,7 +1,7 @@
 import processing.sound.*;
 
 PImage frog1, frog2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
-SoundFile menuMusic, win, lose, jump, gameplayMusic, forestSoudns;
+SoundFile menuMusic, win, lose, jump, gameplayMusic, forestSounds;
 
 // Buttons
 Button normal;
