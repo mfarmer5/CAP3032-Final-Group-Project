@@ -233,13 +233,13 @@ void playGame() {
   }
 
   if (platforms.finalPlatform != null && platforms.finalPlatform.timeUp()) {
-    gameState = 4;
+    state(4);
     return;
   }
 
   // Fell off the bottom of the screen
   if (frog.y - frog.h/2 > height) {
     if (gameState == 2) highScore = max(highScore, score);
-    gameState = 3;
+    state(3);
   }
 }
