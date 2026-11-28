@@ -1,7 +1,7 @@
 import processing.sound.*;
 
 PImage frog1, frog2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
-SoundFile menuMusic, win, lose, jump, gameplayMusic, forestSounds;
+SoundFile menuMusic, win, lose, jump, gameplayMusic, forestSounds, rumble, landing;
 
 // Buttons
 Button normal;
@@ -55,6 +55,8 @@ void setup() {
   win = new SoundFile(this, "win.mp3"); //music for when the user wins
   lose = new SoundFile(this, "lose.mp3"); //when the user falls this sound appears 
   jump = new SoundFile(this, "jump.mp3"); //jump sound for the bouncy lily pads
+  rumble = new SoundFile(this, "ripple.mp3"); //For temporary platform
+  landing = new SoundFile(this, "landing.mp3");//For normal lily pads
   gameplayMusic = new SoundFile(this, "gameplayMusic.mp3"); //background music for when the the user is playing in either endless or story mode
   forestSounds = new SoundFile(this, "forestSounds.mp3"); //if possible play these two sounds at the same time
 
