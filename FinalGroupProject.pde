@@ -51,12 +51,12 @@ void setup() {
   bouncyPad = loadImage("bouncyPad.png");
   temporaryPad = loadImage("temporaryPad.png");
 
-  menuMusic = new SoundFile(this, "menuMusic.mp3");
-  win = new SoundFile(this, "win.mp3");
-  lose = new SoundFile(this, "lose.mp3");
-  jump = new SoundFile(this, "jump.mp3");
-  gameplayMusic = new SoundFile(this, "gameplayMusic.mp3");
-  forestSounds = new SoundFile(this, "forestSounds.mp3");
+  menuMusic = new SoundFile(this, "menuMusic.mp3"); //Main menu music for when the game first opens
+  win = new SoundFile(this, "win.mp3"); //music for when the user wins
+  lose = new SoundFile(this, "lose.mp3"); //when the user falls this sound appears 
+  jump = new SoundFile(this, "jump.mp3"); //jump sound for the bouncy lily pads
+  gameplayMusic = new SoundFile(this, "gameplayMusic.mp3"); //background music for when the the user is playing in either endless or story mode
+  forestSounds = new SoundFile(this, "forestSounds.mp3"); //if possible play these two sounds at the same time
 
   // Initialize buttons (def. w,h is 200,50. def. textSize is 20)
   normal = new Button(width/2, height/2 + 100, 300, 50, "Normal Mode", 30, color(#659B5E));
