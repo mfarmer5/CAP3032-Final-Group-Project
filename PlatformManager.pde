@@ -8,6 +8,7 @@ class PlatformManager {
   float topY;           // y of the highest platform generated so far
   float scrolled = 0;   // total distance scrolled (use for score)
   boolean lastWasTemp = false;
+  boolean endless = false;  
 
   FinalPlatform finalPlatform = null;
   boolean finalSpawned = false;
@@ -29,19 +30,28 @@ class PlatformManager {
   // Keep adding platforms until there are some above the top of the screen
   void generate() {
     if (finalSpawned) return;
+    
+    // Difficulty goes increase over the first 5000 points in endless mode
+    float diff = endless ? constrain(scrolled / 10.0 / 5000.0, 0, 1) : 0;
+    float curMin = lerp(minGap, 130, diff);       // gaps grow
+    float curMax = lerp(maxGap, 280, diff);
+    float curW = lerp(padW, 100, diff);           // pads shrink
+    float tempLimit = lerp(0.40, 0.60, diff);     // more temporary pads    
+    
+    
     while (topY > -100) {
-      topY -= random(minGap, maxGap);
-      float px = random(padW/2, width - padW/2);
+      topY -= random(curMin, curMax);
+      float px = random(curW/2, width - curW/2);
       float r = random(1);
 
       if (r < 0.15) {
-        platforms.add(new BouncyPlatform(px, topY, padW, padH));
+        platforms.add(new BouncyPlatform(px, topY, curW, padH));
         lastWasTemp = false;
-      } else if (r < 0.40 && !lastWasTemp) {
-        platforms.add(new TemporaryPlatform(px, topY, padW, padH));
+      } else if (r < tempLimit && !lastWasTemp) {
+        platforms.add(new TemporaryPlatform(px, topY, curW, padH));
         lastWasTemp = true;   // never two temporary platforms in a row
       } else {
-        platforms.add(new Platform(px, topY, padW, padH, color(#659B5E)));
+        platforms.add(new Platform(px, topY, curW, padH, color(#659B5E)));
         lastWasTemp = false;
       }
     }
@@ -109,7 +119,7 @@ class PlatformManager {
       if (e.y - e.h/2 > height + 50) enemies.remove(i);
     }
     // Spawn the final platform once the score is high enough
-    if (!finalSpawned && int(scrolled / 10) > finalScore) {
+    if (!endless && !finalSpawned && int(scrolled / 10) > finalScore) {
       finalPlatform = new FinalPlatform(width/2, topY - 150, 400, 60);
       platforms.add(finalPlatform);
       finalSpawned = true;
