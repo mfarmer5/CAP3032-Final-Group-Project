@@ -1,7 +1,7 @@
 import processing.sound.*;
 
 PImage frog1, frog2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
-SoundFile menuMusic, win, lose, jump;
+SoundFile menuMusic, win, lose, jump, gameplayMusic, forestSoudns;
 
 // Buttons
 Button normal;
@@ -55,6 +55,8 @@ void setup() {
   win = new SoundFile(this, "win.mp3");
   lose = new SoundFile(this, "lose.mp3");
   jump = new SoundFile(this, "jump.mp3");
+  gameplayMusic = new SoundFile(this, "gameplayMusic.mp3");
+  forestSounds = new SoundFile(this, "forestSounds.mp3");
 
   // Initialize buttons (def. w,h is 200,50. def. textSize is 20)
   normal = new Button(width/2, height/2 + 100, 300, 50, "Normal Mode", 30, color(#659B5E));
