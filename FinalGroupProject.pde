@@ -1,7 +1,7 @@
 import processing.sound.*;
 
 PImage frog1, frog2, frog3, blueBird, darkPurpleBird, lightPurpleBird, pinkBird, redBird;
-SoundFile menuMusic, win, lose, jump, gameplayMusic, forestSounds, rumble, landing;
+SoundFile menuMusic, win, lose, jump, gameplayMusic, forestSounds, rumble, landing, button;
 
 // Buttons
 Button normal;
@@ -59,6 +59,7 @@ void setup() {
   landing = new SoundFile(this, "landing.mp3");//For normal lily pads
   gameplayMusic = new SoundFile(this, "gameplayMusic.mp3"); //background music for when the the user is playing in either endless or story mode
   forestSounds = new SoundFile(this, "forestSounds.mp3"); //if possible play these two sounds at the same time
+  button = new SoundFile(this, "button.mp3");//for buttons on the main menu
 
   // Initialize buttons (def. w,h is 200,50. def. textSize is 20)
   normal = new Button(width/2, height/2 + 100, 300, 50, "Normal Mode", 30, color(#659B5E));
@@ -183,7 +184,12 @@ void mousePressed() {
   switch(gameState) {
   case 0:
     if (normal.mouseOver()) {
+      button.play();
       startGame();
+    }
+    if (endless.mouseOver()) {
+      button.play();
+      state(2);
     }
     break;
   case 1:
