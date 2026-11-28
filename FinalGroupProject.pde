@@ -194,7 +194,7 @@ void startGame(boolean endlessMode) {
   enemies.add(new Enemies(250, 520, 350, 350, 3, 50, 450, true, blueBird));
   enemies.add(new Enemies(100, 380, 350, 350, 2, 200, 550, false, darkPurpleBird));
 
-  gameState = endlessMode ? 2 : 1;
+  state(endlessMode ? 2 : 1);
 }
 
 void playGame() {
