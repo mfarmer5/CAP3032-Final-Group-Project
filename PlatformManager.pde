@@ -68,6 +68,10 @@ class PlatformManager {
       if (p.landedOn(frog.x, frog.previousY, frog.y, frog.w, frog.h)) {
         frog.land(p.top() - frog.h/4);
         p.onLand(frog);                // bouncy launches, temporary starts fading
+
+        if (p instanceof BouncyPlatform) {
+          jump.play();
+        }
         frog.standingOn = frog.onGround ? p : null;
         break;
       }
