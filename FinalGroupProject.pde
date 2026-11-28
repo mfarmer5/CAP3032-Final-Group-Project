@@ -72,7 +72,28 @@ void setup() {
   // Vertical enemy: (x, y, w, h, speed, minPos, maxPos, horizontal)
   enemies.add(new Enemies(100, 380, 350, 350, 2, 200, 550, false, darkPurpleBird));
 
-  gameState = 0;
+  state(0);
+}
+
+void state(int newState) {
+  menuMusic.stop();
+  gameplayMusic.stop();
+  forestSounds.stop();
+  win.stop();
+  lose.stop();
+
+  gameState = newState;
+
+  if (newState == 0) {
+    menuMusic.loop();
+  } else if (newState == 1 || newState == 2) {
+    gameplayMusic.loop();
+    forestSounds.loop();
+  } else if (newState == 3) {
+    lose.play();
+  } else if (newState == 4) {
+    win.play();
+  }
 }
 
 void draw() {
@@ -168,10 +189,10 @@ void mousePressed() {
     break;
 
   case 3:
-    gameState = 0;
+    state(0);
     break;
   case 4:
-    gameState = 0;
+    state(0);
     break;
   }
 }
