@@ -71,6 +71,10 @@ class PlatformManager {
 
         if (p instanceof BouncyPlatform) {
           jump.play();
+        } else if (p instanceof TemporaryPlatform) {
+          rumble.play();
+        } else {
+          landing.play();
         }
         frog.standingOn = frog.onGround ? p : null;
         break;
